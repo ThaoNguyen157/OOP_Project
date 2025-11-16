@@ -66,59 +66,14 @@ public class DSNhanVien {
         System.out.print("Nhap ma nhan vien can sua: ");
         String key = sc.nextLine().trim();
 
-        int idx = -1;
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaNhanVien().equalsIgnoreCase(key)) {
-                idx = i;
-                break;
+                System.out.println("Nhap lai thong tin nhan vien:");
+                ds[i].nhap(sc);
+                return;
             }
         }
-
-        if (idx == -1) {
-            System.out.println("Khong tim thay nhan vien!");
-            return;
-        }
-
-        NhanVien nv = ds[idx];
-
-        System.out.println("\n=== THONG TIN HIEN TAI NHAN VIEN ===");
-        nv.xuat();
-
-        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
-
-        // --- MA NV ---
-        System.out.print("Ma nhan vien moi (" + nv.getMaNhanVien() + "): ");
-        String maMoi = sc.nextLine().trim();
-        if (!maMoi.isEmpty()) nv.setMaNhanVien(maMoi);
-
-        // --- HO TEN ---
-        System.out.print("Ho ten moi (" + nv.getHoTen() + "): ");
-        String tenMoi = sc.nextLine().trim();
-        if (!tenMoi.isEmpty()) nv.setHoTen(tenMoi);
-
-        // --- NGAY SINH ---
-        System.out.print("Ngay sinh moi (" + nv.getNgaySinh() + "): ");
-        String nsMoi = sc.nextLine().trim();
-        if (!nsMoi.isEmpty()) nv.setNgaySinh(nsMoi);
-
-        // --- LUONG ---
-        System.out.print("Luong thang moi (" + nv.getLuongThang() + "): ");
-        String luongStr = sc.nextLine().trim();
-        if (!luongStr.isEmpty()) {
-            try {
-                double luongMoi = Double.parseDouble(luongStr);
-                nv.setLuongThang(luongMoi);
-            } catch (Exception e) {
-                System.out.println(">>> LUONG khong hop le, giu nguyen!");
-            }
-        }
-
-        // --- SO DIEN THOAI ---
-        System.out.print("So dien thoai moi (" + nv.getSoDienThoai() + "): ");
-        String sdtMoi = sc.nextLine().trim();
-        if (!sdtMoi.isEmpty()) nv.setSoDienThoai(sdtMoi);
-
-        System.out.println(">> Da cap nhat thong tin nhan vien!");
+        System.out.println("Khong tim thay nhan vien!");
     }
 
 

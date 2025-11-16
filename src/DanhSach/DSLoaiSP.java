@@ -54,32 +54,12 @@ public class DSLoaiSP {
     // ================= SUA =================
     public void suaTheoMa() {
         System.out.print("Nhap ma loai can sua: ");
-        String ma = sc.nextLine().trim();
-        int idx = timTheoMa(ma);
-
+        int idx = timTheoMa(sc.nextLine());
         if (idx == -1) {
             System.out.println("Khong tim thay!");
             return;
         }
-
-        LoaiSP loai = ds[idx];
-
-        System.out.println("=== THONG TIN HIEN TAI ===");
-        loai.xuat();
-
-        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
-
-        // ----- Sửa MA LOAI -----
-        System.out.print("Ma loai moi (" + loai.getMaLoai() + "): ");
-        String maMoi = sc.nextLine().trim();
-        if (!maMoi.isEmpty()) loai.setMaLoai(maMoi);
-
-        // ----- Sửa TEN LOAI -----
-        System.out.print("Ten loai moi (" + loai.getTenLoai() + "): ");
-        String tenMoi = sc.nextLine().trim();
-        if (!tenMoi.isEmpty()) loai.setTenLoai(tenMoi);
-
-        System.out.println(">> Da cap nhat loai san pham!");
+        ds[idx].nhap(sc);
     }
 
 

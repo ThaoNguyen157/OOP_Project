@@ -47,47 +47,14 @@ public class DSNhaCungCap {
         System.out.print("Nhap ma NCC can sua: ");
         String key = sc.nextLine().trim();
 
-        // Tìm vị trí
-        int idx = -1;
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaNCC().equalsIgnoreCase(key)) {
-                idx = i;
-                break;
+                System.out.println("Nhap lai thong tin NCC:");
+                ds[i].nhap(sc);
+                return;
             }
         }
-
-        if (idx == -1) {
-            System.out.println("Khong tim thay NCC phu hop!");
-            return;
-        }
-
-        NhaCungCap ncc = ds[idx];
-
-        System.out.println("=== THONG TIN NCC HIEN TAI ===");
-        ncc.xuat();
-        System.out.println("Nhap thong tin moi (Enter de giu nguyen)");
-
-        // ----- MA NCC -----
-        System.out.print("Ma NCC moi (" + ncc.getMaNCC() + "): ");
-        String maMoi = sc.nextLine().trim();
-        if (!maMoi.isEmpty()) ncc.setMaNCC(maMoi);
-
-        // ----- TEN NCC -----
-        System.out.print("Ten NCC moi (" + ncc.getTenNCC() + "): ");
-        String tenMoi = sc.nextLine().trim();
-        if (!tenMoi.isEmpty()) ncc.setTenNCC(tenMoi);
-
-        // ----- SO DIEN THOAI -----
-        System.out.print("So dien thoai moi (" + ncc.getSoDienThoai() + "): ");
-        String sdtMoi = sc.nextLine().trim();
-        if (!sdtMoi.isEmpty()) ncc.setSoDienThoai(sdtMoi);
-
-        // ----- DIA CHI -----
-        System.out.print("Dia chi moi (" + ncc.getDiaChi() + "): ");
-        String diaChiMoi = sc.nextLine().trim();
-        if (!diaChiMoi.isEmpty()) ncc.setDiaChi(diaChiMoi);
-
-        System.out.println(">> Da cap nhat thong tin NHA CUNG CAP!");
+        System.out.println("Khong tim thay NCC phu hop!");
     }
 
 

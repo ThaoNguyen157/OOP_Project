@@ -64,63 +64,18 @@ public class DSPhieuNhapHang {
 
     // ================== SUA ==================
     public void suaTheoMa() {
-        System.out.print("Nhap ma phieu nhap can sua: ");
-        String key = sc.nextLine().trim();
+            System.out.print("Nhap ma phieu nhap can sua: ");
+            String key = sc.nextLine().trim();
 
-        int idx = -1;
-        for (int i = 0; i < n; i++) {
-            if (ds[i].getMaPhieuNhap().equalsIgnoreCase(key)) {
-                idx = i;
-                break;
+            for (int i = 0; i < n; i++) {
+                if (ds[i].getMaPhieuNhap().equalsIgnoreCase(key)) {
+                    System.out.println("Nhap lai thong tin phieu nhap:");
+                    ds[i].nhap(sc);
+                    return;
+                }
             }
-        }
-
-        if (idx == -1) {
             System.out.println("Khong tim thay phieu nhap!");
-            return;
         }
-
-        PhieuNhapHang p = ds[idx];
-
-        System.out.println("\n=== THONG TIN HIEN TAI PHIEU NHAP ===");
-        p.xuat();
-
-        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
-
-        // --- MA PHIEU NHAP ---
-        System.out.print("Ma phieu nhap moi (" + p.getMaPhieuNhap() + "): ");
-        String maMoi = sc.nextLine().trim();
-        if (!maMoi.isEmpty()) p.setMaPhieuNhap(maMoi);
-
-        // --- MA NHAN VIEN ---
-        System.out.print("Ma nhan vien moi (" + p.getMaNhanVien() + "): ");
-        String maNVMoi = sc.nextLine().trim();
-        if (!maNVMoi.isEmpty()) p.setMaNhanVien(maNVMoi);
-
-        // --- MA NHA CUNG CAP ---
-        System.out.print("Ma nha cung cap moi (" + p.getMaNCC() + "): ");
-        String maNCCMoi = sc.nextLine().trim();
-        if (!maNCCMoi.isEmpty()) p.setMaNCC(maNCCMoi);
-
-        // --- NGAY NHAP ---
-        System.out.print("Ngay nhap moi (" + p.getNgayNhap() + "): ");
-        String ngayMoi = sc.nextLine().trim();
-        if (!ngayMoi.isEmpty()) p.setNgayNhap(ngayMoi);
-
-        // --- TONG TIEN ---
-        System.out.print("Tong tien moi (" + p.getTongTien() + "): ");
-        String tienStr = sc.nextLine().trim();
-        if (!tienStr.isEmpty()) {
-            try {
-                double tienMoi = Double.parseDouble(tienStr);
-                p.setTongTien(tienMoi);
-            } catch (NumberFormatException e) {
-                System.out.println(">>> TONG TIEN khong hop le, giu nguyen!");
-            }
-        }
-
-        System.out.println(">> Da cap nhat PHIEU NHAP HANG!");
-    }
 
     // ================== XOA ==================
     public void xoaTheoMa() {
