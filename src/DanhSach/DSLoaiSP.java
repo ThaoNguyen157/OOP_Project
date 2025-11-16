@@ -124,16 +124,16 @@ public class DSLoaiSP {
     // ================= DOC FILE =================
     public void docFile(String filename) {
         try {
-            DataInputStream in = new DataInputStream(
+            try (DataInputStream in = new DataInputStream(
                 new FileInputStream(filename)
-            );
+            )) {
+                n = 0;
 
-            n = 0;
-
-            while (true) {
-                String ma = in.readUTF();
-                String ten = in.readUTF();
-                ds[n++] = new LoaiSP(ma, ten);
+                while (true) {
+                    String ma = in.readUTF();
+                    String ten = in.readUTF();
+                    ds[n++] = new LoaiSP(ma, ten);
+                }
             }
 
         } catch (EOFException e) {
