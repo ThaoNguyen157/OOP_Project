@@ -13,8 +13,8 @@ public class DSNhaCungCap {
     // ================= THEM =================
     public void them() {
         System.out.print("Nhap so luong NCC can them: ");
-         int sl = sc.nextInt();
-         sc.nextLine();
+        int sl = sc.nextInt();
+        sc.nextLine();
 
         for (int i = 0; i < sl; i++) {
             System.out.println("---- Nhap NCC thu " + (i + 1) + " ----");
@@ -47,14 +47,79 @@ public class DSNhaCungCap {
         System.out.print("Nhap ma NCC can sua: ");
         String key = sc.nextLine().trim();
 
+        // Tìm vị trí NCC trong mảng
+        int idx = -1;
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaNCC().equalsIgnoreCase(key)) {
-                System.out.println("Nhap lai thong tin NCC:");
-                ds[i].nhap(sc);
-                return;
+                idx = i;
+                break;
             }
         }
-        System.out.println("Khong tim thay NCC phu hop!");
+
+        if (idx == -1) {
+            System.out.println("Khong tim thay NCC phu hop!");
+            return;
+        }
+
+        NhaCungCap ncc = ds[idx];
+        int chon;
+
+        do {
+            System.out.println("\n--- THONG TIN NCC DANG SUA ---");
+            ncc.xuat();
+
+            System.out.println("Ban muon sua gi?");
+            System.out.println("1. Sua MA NCC");
+            System.out.println("2. Sua TEN NCC");
+            System.out.println("3. Sua SO DIEN THOAI");
+            System.out.println("4. Sua DIA CHI");
+            System.out.println("0. Thoat sua");
+            System.out.print("Nhap lua chon: ");
+
+            try {
+                chon = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                chon = -1;
+            }
+
+            switch (chon) {
+                case 1:
+                    System.out.print("Nhap MA NCC moi: ");
+                    String maMoi = sc.nextLine().trim();
+                    ncc.setMaNCC(maMoi);
+                    System.out.println(">> Da cap nhat MA NCC!");
+                    break;
+
+                case 2:
+                    System.out.print("Nhap TEN NCC moi: ");
+                    String tenMoi = sc.nextLine().trim();
+                    ncc.setTenNCC(tenMoi);
+                    System.out.println(">> Da cap nhat TEN NCC!");
+                    break;
+
+                case 3:
+                    System.out.print("Nhap SO DIEN THOAI moi: ");
+                    String sdtMoi = sc.nextLine().trim();
+                    ncc.setSoDienThoai(sdtMoi);
+                    System.out.println(">> Da cap nhat SO DIEN THOAI!");
+                    break;
+
+                case 4:
+                    System.out.print("Nhap DIA CHI moi: ");
+                    String diaChiMoi = sc.nextLine().trim();
+                    ncc.setDiaChi(diaChiMoi);
+                    System.out.println(">> Da cap nhat DIA CHI!");
+                    break;
+
+                case 0:
+                    System.out.println("Thoat sua NHA CUNG CAP.");
+                    break;
+
+                default:
+                    System.out.println("Lua chon khong hop le!");
+            }
+
+        } while (chon != 0);
     }
 
     // ================= XOA THEO MA =================
@@ -65,10 +130,10 @@ public class DSNhaCungCap {
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaNCC().equalsIgnoreCase(key)) {
                 for (int j = i; j < n - 1; j++) {
-                ds[j] = ds[j + 1];
-            }
-            ds[n - 1] = null; // Xóa tham chiếu cuối cùng
-            n--; 
+                    ds[j] = ds[j + 1];
+                }
+                ds[n - 1] = null; // Xóa tham chiếu cuối cùng
+                n--;
                 System.out.println("Da xoa NCC!");
                 return;
             }
@@ -94,33 +159,41 @@ public class DSNhaCungCap {
         if (!found) System.out.println("Khong tim thay NCC nao phu hop!");
     }
 
-    // ================= DOC FILE =================
+    // ================= DOC FILE (DataInputStream) =================
     public void docFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            n = 0;
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] p = line.split(";");
-                if (p.length >= 4) {
-                    ds[n++] = new NhaCungCap(p[0], p[1], p[2], p[3]);
-                }
+        n = 0;
+        try (DataInputStream in = new DataInputStream(new FileInputStream(filename))) {
+
+            while (true) {
+                String ma  = in.readUTF();
+                String ten = in.readUTF();
+                String sdt = in.readUTF();
+                String dia = in.readUTF();
+
+                ds[n++] = new NhaCungCap(ma, ten, sdt, dia);
             }
+
+        } catch (EOFException e) {
+            // Đọc hết file
             System.out.println("Doc file NCC thanh cong!");
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Khong tim thay file NCC (bat dau tu danh sach rong).");
+        } catch (IOException e) {
+            System.out.println("Loi khi doc file NCC: " + e.getMessage());
         }
     }
 
-    // ================= GHI FILE =================
+    // ================= GHI FILE (DataOutputStream) =================
     public void ghiFile(String filename) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filename))) {
+
             for (int i = 0; i < n; i++) {
-                bw.write(ds[i].getMaNCC() + ";" 
-                        + ds[i].getTenNCC() + ";" 
-                        + ds[i].getSoDienThoai() + ";" 
-                        + ds[i].getDiaChi());
-                bw.newLine();
+                out.writeUTF(ds[i].getMaNCC());
+                out.writeUTF(ds[i].getTenNCC());
+                out.writeUTF(ds[i].getSoDienThoai());
+                out.writeUTF(ds[i].getDiaChi());
             }
+
             System.out.println("Ghi file NCC thanh cong!");
         } catch (IOException e) {
             System.out.println("Loi khi ghi file NCC: " + e.getMessage());
@@ -166,6 +239,5 @@ public class DSNhaCungCap {
         }
         System.out.println("--------------------------------");
         System.out.println("Tong NCC trong khu vuc '" + key + "': " + dem);
-        
     }
 }
