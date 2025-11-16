@@ -7,25 +7,24 @@ import java.util.Scanner;
 public class DSPhieuNhapHang {
 
     private PhieuNhapHang[] ds = new PhieuNhapHang[1000]; 
-    private int n = 0;
-    private final Scanner sc = new Scanner(System.in);
-
+    private int n = 0; 
+    private final Scanner sc = new Scanner(System.in); 
     // ================== THEM ==================
-    public void them() {
-        System.out.print("Nhap so luong phieu nhap can them: ");
-        int sl = sc.nextInt();
-        sc.nextLine();
+    public void them() { 
+        System.out.print("Nhap so luong phieu nhap can them: "); 
+        int sl = sc.nextInt(); 
+        sc.nextLine(); 
 
-        for (int i = 0; i < sl; i++) {
+        for (int i = 0; i < sl; i++) { 
             System.out.println("---- Nhap phieu nhap thu " + (i + 1) + " ----");
-            PhieuNhapHang pnh = new PhieuNhapHang();
-            pnh.nhap(sc);
+            PhieuNhapHang pnh = new PhieuNhapHang(); 
+            pnh.nhap(sc); 
             ds[n++] = pnh;
-        }
+        } 
     }
 
     // ================== XUAT ==================
-    public void xuat() {
+    public void xuat() { 
         if (n == 0) {
             System.out.println("Danh sach phieu nhap rong!");
             return;
@@ -33,12 +32,12 @@ public class DSPhieuNhapHang {
         System.out.println("==== DANH SACH PHIEU NHAP HANG ====");
         for (int i = 0; i < n; i++) {
             System.out.print((i + 1) + ". ");
-            ds[i].xuat();
+            ds[i].xuat(); 
         }
     }
 
     // ================== TIM KIEM GAN DUNG ==================
-    private boolean match(String src, String key) {
+    private boolean match(String src, String key) { // trả về true hay false
         return src.toLowerCase().contains(key.toLowerCase());
     }
 
