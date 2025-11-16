@@ -54,7 +54,7 @@ public class DSLoaiSP {
     // ================= SUA =================
     public void suaTheoMa() {
         System.out.print("Nhap ma loai can sua: ");
-        String ma = sc.nextLine();
+        String ma = sc.nextLine().trim();
         int idx = timTheoMa(ma);
 
         if (idx == -1) {
@@ -63,48 +63,23 @@ public class DSLoaiSP {
         }
 
         LoaiSP loai = ds[idx];
-        int chon;
 
-        do {
-            System.out.println("\n--- THONG TIN LOAI DANG SUA ---");
-            loai.xuat();
+        System.out.println("=== THONG TIN HIEN TAI ===");
+        loai.xuat();
 
-            System.out.println("Ban muon sua gi?");
-            System.out.println("1. Sua MA LOAI");
-            System.out.println("2. Sua TEN LOAI");
-            System.out.println("0. Thoat sua");
-            System.out.print("Nhap lua chon: ");
+        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
 
-            try {
-                chon = Integer.parseInt(sc.nextLine());
-            } catch (Exception e) {
-                chon = -1;
-            }
+        // ----- Sửa MA LOAI -----
+        System.out.print("Ma loai moi (" + loai.getMaLoai() + "): ");
+        String maMoi = sc.nextLine().trim();
+        if (!maMoi.isEmpty()) loai.setMaLoai(maMoi);
 
-            switch (chon) {
-                case 1:
-                    System.out.print("Nhap MA LOAI moi: ");
-                    String maMoi = sc.nextLine();
-                    loai.setMaLoai(maMoi);
-                    System.out.println(">> Da cap nhat MA LOAI!");
-                    break;
+        // ----- Sửa TEN LOAI -----
+        System.out.print("Ten loai moi (" + loai.getTenLoai() + "): ");
+        String tenMoi = sc.nextLine().trim();
+        if (!tenMoi.isEmpty()) loai.setTenLoai(tenMoi);
 
-                case 2:
-                    System.out.print("Nhap TEN LOAI moi: ");
-                    String tenMoi = sc.nextLine();
-                    loai.setTenLoai(tenMoi);
-                    System.out.println(">> Da cap nhat TEN LOAI!");
-                    break;
-
-                case 0:
-                    System.out.println("Thoat sua loai san pham.");
-                    break;
-
-                default:
-                    System.out.println("Lua chon khong hop le!");
-            }
-
-        } while (chon != 0);
+        System.out.println(">> Da cap nhat loai san pham!");
     }
 
 
@@ -123,46 +98,31 @@ public class DSLoaiSP {
 
     // ================= DOC FILE =================
     public void docFile(String filename) {
-        try {
-            try (DataInputStream in = new DataInputStream(
-                new FileInputStream(filename)
-            )) {
-                n = 0;
-
-                while (true) {
-                    String ma = in.readUTF();
-                    String ten = in.readUTF();
-                    ds[n++] = new LoaiSP(ma, ten);
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            n = 0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(";");
+                if (p.length >= 2) {
+                    ds[n++] = new LoaiSP(p[0], p[1]);
                 }
             }
-
-        } catch (EOFException e) {
-            System.out.println("Doc file LOAISP thanh cong!");
-
-        } catch (IOException e) {
+            System.out.println("Doc file thanh cong!");
+        } catch (Exception e) {
             System.out.println("Khong the doc file!");
         }
     }
 
-
     // ================= GHI FILE =================
     public void ghiFile(String filename) {
-        try {
-            DataOutputStream out = new DataOutputStream(
-                new FileOutputStream(filename, true) // ghi thêm vào cuối file
-            );
-
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             for (int i = 0; i < n; i++) {
-                out.writeUTF(ds[i].getMaLoai());
-                out.writeUTF(ds[i].getTenLoai());
+                bw.write(ds[i].getMaLoai() + ";" + ds[i].getTenLoai());
+                bw.newLine();
             }
-
-            out.close();
             System.out.println("Ghi file thanh cong!");
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Ghi file that bai!");
         }
     }
-
 }

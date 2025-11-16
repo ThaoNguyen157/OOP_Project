@@ -67,7 +67,6 @@ public class DSPhieuNhapHang {
         System.out.print("Nhap ma phieu nhap can sua: ");
         String key = sc.nextLine().trim();
 
-        // Tìm vị trí phiếu trong mảng
         int idx = -1;
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaPhieuNhap().equalsIgnoreCase(key)) {
@@ -82,77 +81,45 @@ public class DSPhieuNhapHang {
         }
 
         PhieuNhapHang p = ds[idx];
-        int chon;
 
-        do {
-            System.out.println("\n--- THONG TIN PHIEU NHAP DANG SUA ---");
-            p.xuat();
+        System.out.println("\n=== THONG TIN HIEN TAI PHIEU NHAP ===");
+        p.xuat();
 
-            System.out.println("Ban muon sua gi?");
-            System.out.println("1. Sua MA PHIEU NHAP");
-            System.out.println("2. Sua MA NHAN VIEN");
-            System.out.println("3. Sua MA NHA CUNG CAP");
-            System.out.println("4. Sua NGAY NHAP");
-            System.out.println("5. Sua TONG TIEN");
-            System.out.println("0. Thoat sua");
-            System.out.print("Nhap lua chon: ");
+        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
 
+        // --- MA PHIEU NHAP ---
+        System.out.print("Ma phieu nhap moi (" + p.getMaPhieuNhap() + "): ");
+        String maMoi = sc.nextLine().trim();
+        if (!maMoi.isEmpty()) p.setMaPhieuNhap(maMoi);
+
+        // --- MA NHAN VIEN ---
+        System.out.print("Ma nhan vien moi (" + p.getMaNhanVien() + "): ");
+        String maNVMoi = sc.nextLine().trim();
+        if (!maNVMoi.isEmpty()) p.setMaNhanVien(maNVMoi);
+
+        // --- MA NHA CUNG CAP ---
+        System.out.print("Ma nha cung cap moi (" + p.getMaNCC() + "): ");
+        String maNCCMoi = sc.nextLine().trim();
+        if (!maNCCMoi.isEmpty()) p.setMaNCC(maNCCMoi);
+
+        // --- NGAY NHAP ---
+        System.out.print("Ngay nhap moi (" + p.getNgayNhap() + "): ");
+        String ngayMoi = sc.nextLine().trim();
+        if (!ngayMoi.isEmpty()) p.setNgayNhap(ngayMoi);
+
+        // --- TONG TIEN ---
+        System.out.print("Tong tien moi (" + p.getTongTien() + "): ");
+        String tienStr = sc.nextLine().trim();
+        if (!tienStr.isEmpty()) {
             try {
-                chon = Integer.parseInt(sc.nextLine().trim());
-            } catch (Exception e) {
-                chon = -1;
+                double tienMoi = Double.parseDouble(tienStr);
+                p.setTongTien(tienMoi);
+            } catch (NumberFormatException e) {
+                System.out.println(">>> TONG TIEN khong hop le, giu nguyen!");
             }
+        }
 
-            switch (chon) {
-                case 1:
-                    System.out.print("Nhap MA PHIEU NHAP moi: ");
-                    String maMoi = sc.nextLine().trim();
-                    p.setMaPhieuNhap(maMoi);
-                    System.out.println(">> Da cap nhat MA PHIEU NHAP!");
-                    break;
-
-                case 2:
-                    System.out.print("Nhap MA NHAN VIEN moi: ");
-                    String maNVMoi = sc.nextLine().trim();
-                    p.setMaNhanVien(maNVMoi);
-                    System.out.println(">> Da cap nhat MA NHAN VIEN!");
-                    break;
-
-                case 3:
-                    System.out.print("Nhap MA NHA CUNG CAP moi: ");
-                    String maNCCMoi = sc.nextLine().trim();
-                    p.setMaNCC(maNCCMoi);
-                    System.out.println(">> Da cap nhat MA NHA CUNG CAP!");
-                    break;
-
-                case 4:
-                    System.out.print("Nhap NGAY NHAP moi: ");
-                    String ngayMoi = sc.nextLine().trim();
-                    p.setNgayNhap(ngayMoi);
-                    System.out.println(">> Da cap nhat NGAY NHAP!");
-                    break;
-
-                case 5:
-                    System.out.print("Nhap TONG TIEN moi: ");
-                    String tienStr = sc.nextLine().trim();
-                    try {
-                        double tienMoi = Double.parseDouble(tienStr);
-                        p.setTongTien(tienMoi);
-                        System.out.println(">> Da cap nhat TONG TIEN!");
-                    } catch (NumberFormatException e) {
-                        System.out.println(">>> TONG TIEN khong hop le, giu nguyen gia tri cu!");
-                    }
-                    break;
-
-                case 0:
-                    System.out.println("Thoat sua PHIEU NHAP HANG.");
-                    break;
-
-                default:
-                    System.out.println("Lua chon khong hop le!");
-            }
-
-        } while (chon != 0);
+        System.out.println(">> Da cap nhat PHIEU NHAP HANG!");
     }
 
     // ================== XOA ==================
@@ -174,43 +141,47 @@ public class DSPhieuNhapHang {
         System.out.println("Khong tim thay phieu nhap!");
     }
 
-    // ================== FILE (DataInputStream / DataOutputStream) ==================
+    // ================== FILE ==================
     public void docFile(String filename) {
-        n = 0;
-        try (DataInputStream in = new DataInputStream(new FileInputStream(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            n = 0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(";");
+                if (p.length < 5) continue;
 
-            while (true) {
-                String maPnh = in.readUTF();
-                String maNv  = in.readUTF();
-                String maNcc = in.readUTF();
-                String ngay  = in.readUTF();
-                double tong  = in.readDouble();
+                String maPnh = p[0].trim();
+                String maNv  = p[1].trim();
+                String maNcc = p[2].trim();
+                String ngay  = p[3].trim();
+                double tong;
+
+                try {
+                    tong = Double.parseDouble(p[4].trim());
+                } catch (NumberFormatException e) {
+                    continue;
+                }
 
                 ds[n++] = new PhieuNhapHang(maPnh, maNv, maNcc, ngay, tong);
             }
-
-        } catch (EOFException e) {
-            // đọc hết file
             System.out.println("Doc file PNH thanh cong!");
-        } catch (FileNotFoundException e) {
-            System.out.println("Khong tim thay file PNH (bat dau danh sach rong).");
         } catch (IOException e) {
-            System.out.println("Loi khi doc file PNH: " + e.getMessage());
+            System.out.println("Khong tim thay file PNH (bat dau danh sach rong).");
         }
     }
 
     public void ghiFile(String filename) {
-        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filename))) {
-
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             for (int i = 0; i < n; i++) {
                 PhieuNhapHang p = ds[i];
-                out.writeUTF(p.getMaPhieuNhap());
-                out.writeUTF(p.getMaNhanVien());
-                out.writeUTF(p.getMaNCC());
-                out.writeUTF(p.getNgayNhap());
-                out.writeDouble(p.getTongTien());
+                String line = p.getMaPhieuNhap() + ";" +
+                              p.getMaNhanVien()   + ";" +
+                              p.getMaNCC()        + ";" +
+                              p.getNgayNhap()     + ";" +
+                              p.getTongTien();
+                bw.write(line);
+                bw.newLine();
             }
-
             System.out.println("Ghi file PNH thanh cong!");
         } catch (IOException e) {
             System.out.println("Loi khi ghi file PNH: " + e.getMessage());

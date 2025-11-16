@@ -66,7 +66,6 @@ public class DSNhanVien {
         System.out.print("Nhap ma nhan vien can sua: ");
         String key = sc.nextLine().trim();
 
-        // Tìm vị trí nhân viên trong mảng
         int idx = -1;
         for (int i = 0; i < n; i++) {
             if (ds[i].getMaNhanVien().equalsIgnoreCase(key)) {
@@ -81,77 +80,45 @@ public class DSNhanVien {
         }
 
         NhanVien nv = ds[idx];
-        int chon;
 
-        do {
-            System.out.println("\n--- THONG TIN NHAN VIEN DANG SUA ---");
-            nv.xuat();
+        System.out.println("\n=== THONG TIN HIEN TAI NHAN VIEN ===");
+        nv.xuat();
 
-            System.out.println("Ban muon sua gi?");
-            System.out.println("1. Sua MA NHAN VIEN");
-            System.out.println("2. Sua HO TEN");
-            System.out.println("3. Sua NGAY SINH");
-            System.out.println("4. Sua LUONG THANG");
-            System.out.println("5. Sua SO DIEN THOAI");
-            System.out.println("0. Thoat sua");
-            System.out.print("Nhap lua chon: ");
+        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
 
+        // --- MA NV ---
+        System.out.print("Ma nhan vien moi (" + nv.getMaNhanVien() + "): ");
+        String maMoi = sc.nextLine().trim();
+        if (!maMoi.isEmpty()) nv.setMaNhanVien(maMoi);
+
+        // --- HO TEN ---
+        System.out.print("Ho ten moi (" + nv.getHoTen() + "): ");
+        String tenMoi = sc.nextLine().trim();
+        if (!tenMoi.isEmpty()) nv.setHoTen(tenMoi);
+
+        // --- NGAY SINH ---
+        System.out.print("Ngay sinh moi (" + nv.getNgaySinh() + "): ");
+        String nsMoi = sc.nextLine().trim();
+        if (!nsMoi.isEmpty()) nv.setNgaySinh(nsMoi);
+
+        // --- LUONG ---
+        System.out.print("Luong thang moi (" + nv.getLuongThang() + "): ");
+        String luongStr = sc.nextLine().trim();
+        if (!luongStr.isEmpty()) {
             try {
-                chon = Integer.parseInt(sc.nextLine().trim());
+                double luongMoi = Double.parseDouble(luongStr);
+                nv.setLuongThang(luongMoi);
             } catch (Exception e) {
-                chon = -1;
+                System.out.println(">>> LUONG khong hop le, giu nguyen!");
             }
+        }
 
-            switch (chon) {
-                case 1:
-                    System.out.print("Nhap MA NHAN VIEN moi: ");
-                    String maMoi = sc.nextLine().trim();
-                    nv.setMaNhanVien(maMoi);
-                    System.out.println(">> Da cap nhat MA NHAN VIEN!");
-                    break;
+        // --- SO DIEN THOAI ---
+        System.out.print("So dien thoai moi (" + nv.getSoDienThoai() + "): ");
+        String sdtMoi = sc.nextLine().trim();
+        if (!sdtMoi.isEmpty()) nv.setSoDienThoai(sdtMoi);
 
-                case 2:
-                    System.out.print("Nhap HO TEN moi: ");
-                    String tenMoi = sc.nextLine().trim();
-                    nv.setHoTen(tenMoi);
-                    System.out.println(">> Da cap nhat HO TEN!");
-                    break;
-
-                case 3:
-                    System.out.print("Nhap NGAY SINH moi: ");
-                    String nsMoi = sc.nextLine().trim();
-                    nv.setNgaySinh(nsMoi);
-                    System.out.println(">> Da cap nhat NGAY SINH!");
-                    break;
-
-                case 4:
-                    System.out.print("Nhap LUONG THANG moi: ");
-                    String luongStr = sc.nextLine().trim();
-                    try {
-                        double luongMoi = Double.parseDouble(luongStr);
-                        nv.setLuongThang(luongMoi);
-                        System.out.println(">> Da cap nhat LUONG THANG!");
-                    } catch (NumberFormatException e) {
-                        System.out.println(">>> LUONG khong hop le, giu nguyen gia tri cu!");
-                    }
-                    break;
-
-                case 5:
-                    System.out.print("Nhap SO DIEN THOAI moi: ");
-                    String sdtMoi = sc.nextLine().trim();
-                    nv.setSoDienThoai(sdtMoi);
-                    System.out.println(">> Da cap nhat SO DIEN THOAI!");
-                    break;
-
-                case 0:
-                    System.out.println("Thoat sua NHAN VIEN.");
-                    break;
-
-                default:
-                    System.out.println("Lua chon khong hop le!");
-            }
-
-        } while (chon != 0);
+        System.out.println(">> Da cap nhat thong tin nhan vien!");
     }
 
 
@@ -175,51 +142,62 @@ public class DSNhanVien {
         System.out.println("Khong tim thay nhan vien!");
     }
 
-    // ================= DOC FILE (DataInputStream) =================
+    // ================= DOC FILE =================
     public void docFile(String filename) {
-        n = 0;
-        try (DataInputStream in = new DataInputStream(new FileInputStream(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            n = 0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(";");
+                if (p.length < 5) continue;
+                if (p[0].equalsIgnoreCase("maNhanVien")) continue;
 
-            while (true) {
-                String ma  = in.readUTF();
-                String ten = in.readUTF();
-                String ns  = in.readUTF();
-                double luong = in.readDouble();
-                String sdt = in.readUTF();
+                String ma = p[0].trim();
+                String ten = p[1].trim();
+                String ns;
+                double luong;
+                String sdt;
+
+                try {
+                    if (p.length >= 6) { // Format cũ
+                        ns    = p[2].trim();
+                        luong = Double.parseDouble(p[4].trim());
+                        sdt   = p[5].trim();
+                    } else {            // Format mới
+                        ns    = p[2].trim();
+                        luong = Double.parseDouble(p[3].trim());
+                        sdt   = p[4].trim();
+                    }
+                } catch (NumberFormatException e) {
+                    continue; // bỏ dòng lỗi
+                }
 
                 ds[n++] = new NhanVien(ma, ten, ns, luong, sdt);
             }
-
-        } catch (EOFException e) {
-            // đọc hết file
             System.out.println("Doc file NhanVien thanh cong!");
-        } catch (FileNotFoundException e) {
-            System.out.println("Khong tim thay file NhanVien (bat dau tu danh sach rong).");
         } catch (IOException e) {
-            System.out.println("Loi khi doc file NhanVien: " + e.getMessage());
+            System.out.println("Khong tim thay file NhanVien (bat dau tu danh sach rong).");
         }
     }
 
-
-    // ================= GHI FILE (DataOutputStream) =================
+    // ================= GHI FILE =================
     public void ghiFile(String filename) {
-        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filename))) {
-
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             for (int i = 0; i < n; i++) {
                 NhanVien nv = ds[i];
-                out.writeUTF(nv.getMaNhanVien());
-                out.writeUTF(nv.getHoTen());
-                out.writeUTF(nv.getNgaySinh());
-                out.writeDouble(nv.getLuongThang());
-                out.writeUTF(nv.getSoDienThoai());
+                String line = nv.getMaNhanVien() + ";" +
+                              nv.getHoTen()       + ";" +
+                              nv.getNgaySinh()    + ";" +
+                              nv.getLuongThang()  + ";" +
+                              nv.getSoDienThoai();
+                bw.write(line);
+                bw.newLine();
             }
-
             System.out.println("Ghi file NhanVien thanh cong!");
         } catch (IOException e) {
             System.out.println("Loi khi ghi file NhanVien: " + e.getMessage());
         }
     }
-
 
     // ================= THONG KE =================
     public void thongKeSoLuongNhanVien() {

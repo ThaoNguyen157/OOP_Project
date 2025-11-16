@@ -14,10 +14,10 @@ public class Main {
         DSLoaiSP dsLoai = new DSLoaiSP();
 
         // Load file nếu có sẵn
-        dsNV.docFile("./NhanVien.txt");
-        dsNCC.docFile("./NhaCungCap.txt");
-        dsPNH.docFile("./PhieuNhapHang.txt");
-        dsLoai.docFile("./LoaiSP.txt");
+        dsNV.docFile("../NhanVien.txt");
+        dsNCC.docFile("../NhaCungCap.txt");
+        dsPNH.docFile("../PhieuNhapHang.txt");
+        dsLoai.docFile("../LoaiSP.txt");
 
         int chon;
         do {
@@ -41,10 +41,10 @@ public class Main {
                     menuLoaiSP(dsLoai, sc); break;
                 case 0:
                     System.out.println("Dang thoat va ghi file...");
-                    dsNV.ghiFile("./NhanVien.txt");
-                    dsNCC.ghiFile("./NhaCungCap.txt");
-                    dsPNH.ghiFile("./PhieuNhapHang.txt");
-                    dsLoai.ghiFile("./LoaiSP.txt");
+                    dsNV.ghiFile("../NhanVien.txt");
+                    dsNCC.ghiFile("../NhaCungCap.txt");
+                    dsPNH.ghiFile("../PhieuNhapHang.txt");
+                    dsLoai.ghiFile("../LoaiSP.txt");
                     break;
                 default:
                     System.out.println("Lua chon khong hop le!");
@@ -74,16 +74,16 @@ public class Main {
             switch (chon) {
                 case 1:
                     ds.them();
-                    ds.ghiFile("./NhanVien.txt");   // AUTO SAVE
+                    ds.ghiFile("../NhanVien.txt");   // AUTO SAVE
                     break;
                 case 2: ds.xuat(); break;
                 case 3:
                     ds.suaTheoMa();
-                    ds.ghiFile("./NhanVien.txt");
+                    ds.ghiFile("../NhanVien.txt");
                     break;
                 case 4:
                     ds.xoaTheoMa();
-                    ds.ghiFile("./NhanVien.txt");
+                    ds.ghiFile("../NhanVien.txt");
                     break;
                 case 5: ds.timKiem(); break;
                 case 6: ds.thongKeSoLuongNhanVien(); break;
@@ -115,16 +115,16 @@ public class Main {
             switch (chon) {
                 case 1:
                     ds.them();
-                    ds.ghiFile("./NhaCungCap.txt");
+                    ds.ghiFile("../NhaCungCap.txt");
                     break;
                 case 2: ds.xuat(); break;
                 case 3:
                     ds.suaTheoMa();
-                    ds.ghiFile("./NhaCungCap.txt");
+                    ds.ghiFile("../NhaCungCap.txt");
                     break;
                 case 4:
                     ds.xoaTheoMa();
-                    ds.ghiFile("./NhaCungCap.txt");
+                    ds.ghiFile("../NhaCungCap.txt");
                     break;
                 case 5: ds.timKiem(); break;
                 case 6: ds.thongKeSoLuongNCC(); break;
@@ -156,16 +156,16 @@ public class Main {
             switch (chon) {
                 case 1:
                     ds.them();
-                    ds.ghiFile("./PhieuNhapHang.txt");
+                    ds.ghiFile("../PhieuNhapHang.txt");
                     break;
                 case 2: ds.xuat(); break;
                 case 3:
                     ds.suaTheoMa();
-                    ds.ghiFile("./PhieuNhapHang.txt");
+                    ds.ghiFile("../PhieuNhapHang.txt");
                     break;
                 case 4:
                     ds.xoaTheoMa();
-                    ds.ghiFile("./PhieuNhapHang.txt");
+                    ds.ghiFile("../PhieuNhapHang.txt");
                     break;
                 case 5: ds.timKiem(); break;
                 case 6: ds.thongKeTongTienTatCa(); break;
@@ -196,16 +196,16 @@ public class Main {
             switch (chon) {
                 case 1:
                     ds.them();
-                    ds.ghiFile("./LoaiSP.txt");
+                    ds.ghiFile("../LoaiSP.txt");
                     break;
                 case 2: ds.xuat(); break;
                 case 3:
                     ds.suaTheoMa();
-                    ds.ghiFile("./LoaiSP.txt");
+                    ds.ghiFile("../LoaiSP.txt");
                     break;
                 case 4:
                     ds.xoaTheoMa();
-                    ds.ghiFile("./LoaiSP.txt");
+                    ds.ghiFile("../LoaiSP.txt");
                     break;
                 case 5: ds.timKiemTheoMa(); break;
                 case 0: break;
