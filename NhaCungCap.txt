@@ -1,0 +1,10 @@
+NCC01;Công Ty Thiết Bị Sài Gòn;0909123456;Quận 1, TP.HCM
+NCC02;Công Ty Phụ Kiện Minh Đức;0988123456;Quận Bình Thạnh, TP.HCM
+NCC03;Kho Hàng Thủ Đức;0912345678;TP.Thủ Đức, TP.HCM
+NCC04;Công Ty Nhật Bản Store;0933456789;Quận Tân Bình, TP.HCM
+NCC05;Nhà Phân Phối Ánh Dương;0977123456;Quận Gò Vấp, TP.HCM
+NCC06;Cửa Hàng Điện Máy Hòa Bình;0939123988;Quận 3, TP.HCM
+NCC07;Trung Tâm Sỉ Thiết Bị Gia Dụng;0918234466;Quận 10, TP.HCM
+NCC08;Công Ty Phân Phối Thiên Long;0989554321;Quận Phú Nhuận, TP.HCM
+NCC09;Kho Sỉ Tổng Hợp Đông Á;0909888777;Huyện Hóc Môn, TP.HCM
+NCC10;Nhà Phân Phối Đại Phúc;0933112244;Quận 7, TP.HCM

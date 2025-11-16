@@ -1,0 +1,10 @@
+L01;Giày Dép Nam
+L02;Giày Dép Nữ
+L03;Phụ Kiện
+L04;Giày Thể Thao
+L05;Giày Trẻ Em
+L06;Giày Cao Gót
+L07;Giày Lười Nam
+L08;Dép Quai Ngang
+L09;Giày Sandal Nữ
+L10;Giày Da Công Sở
